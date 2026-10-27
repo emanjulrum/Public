@@ -20,7 +20,6 @@ def main():
     ModuleSet = np.arange(1,50,0.125)
     PlanetOptions = [6,5,4,3]
 
-
     os.system('cls' if os.name == 'nt' else 'clear')
         # the code checks os.name; if it equal 'nt' (Windows), it runs cls, otheriwse it runs clear
 
@@ -65,7 +64,6 @@ def main():
 
     for m in ModuleSet:
         # print(round(float(m),3))
-        
         match phi:
             case 14.5:
                 addendum = m*1
@@ -74,7 +72,7 @@ def main():
                 addendum = m*1
                 dedendum = m*1.25
 
-        # Make Ring Gear
+        # Make Ring Gear ==============================================================================================
         d_ring_root = d_max - 2*RadiusOffset    # calculates the root diameter of the internal ring gear
         d_ring_pitch = d_ring_root -2*dedendum   # calculates the pitch diameter of the internal ring gear
         N_r = int(d_ring_pitch/m)
@@ -82,16 +80,16 @@ def main():
             continue    # skips to next iteration since N_r <6
         Ring = InternalGear(N_r,m,phi)
 
-        # Make Sun Gear
+        # Make Sun Gear ===============================================================================================
         N_s = int(N_r/(TargetRatio-1))          # Solves GR=1+Nr/Ns; floors down to the nearest teeth
         if N_s < 6:
             continue    # skips to next iteration since N_s <6
         Sun = ExternalGear(N_s,m,phi)
         if Sun.root < 6:
             continue            # skips to the next iteration if it is smaller than 6mm
-        # print(Sun)        # this is check the sun gear and its dimensions
+        # print(Sun)            # this is to check the sun gear and its dimensions
 
-        # Make Planet Gear
+        # Make Planet Gear ============================================================================================
         N_p = (N_r-N_s)/2       # Solves N_r = 2N_p + N_s
         if N_p <= 0 or N_p != int(N_p):
             continue  # skips to next iteration if N_p is negative or a decimal
@@ -99,7 +97,6 @@ def main():
         if Planet.root < 6:
             continue            # skips to the next iteration if it is smaller than 6mm
         # print(Planet)        # this is check the Planet gear and its dimensions
-
 
         for num_planets in PlanetOptions:
             # Condition # 1
@@ -180,7 +177,7 @@ def main():
         print()
 
 if __name__ == "__main__":      
-    # __name__ is automatically set to __main__ when you run the file it self
+    # __name__ is automatically set to __main__ when you run the file itself
     main() 
 
 
